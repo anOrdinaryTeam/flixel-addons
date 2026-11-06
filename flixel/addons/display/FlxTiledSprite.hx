@@ -117,7 +117,7 @@ class FlxTiledSprite extends FlxStrip
 	{
 		if (graphic != value)
 			regen = true;
-		
+			
 		return super.set_graphic(value);
 	}
 	
@@ -125,7 +125,7 @@ class FlxTiledSprite extends FlxStrip
 	{
 		if (!regen || graphic == null)
 			return;
-		
+			
 		if (FlxG.renderBlit)
 		{
 			updateRenderSprite();
@@ -142,7 +142,7 @@ class FlxTiledSprite extends FlxStrip
 	{
 		if (regen)
 			regenGraphic();
-		
+			
 		if (graphicVisible)
 		{
 			if (FlxG.renderBlit)
@@ -173,7 +173,7 @@ class FlxTiledSprite extends FlxStrip
 	{
 		if (ignoreDrawDebug)
 			return;
-		
+			
 		final drawPath = path != null && !path.ignoreDrawDebug;
 		
 		for (camera in getCamerasLegacy())
@@ -194,13 +194,13 @@ class FlxTiledSprite extends FlxStrip
 		
 		if (renderSprite == null)
 			renderSprite = new FlxSprite();
-		
+			
 		final drawRect = getDrawRect();
 		drawRect.x = Std.int(drawRect.x);
 		drawRect.y = Std.int(drawRect.y);
 		drawRect.width = Std.int(drawRect.width);
 		drawRect.height = Std.int(drawRect.height);
-		//TODO: rect.int() or smth
+		// TODO: rect.int() or smth
 		
 		if (drawRect.width * drawRect.height == 0)
 		{
@@ -242,7 +242,7 @@ class FlxTiledSprite extends FlxStrip
 	{
 		if (graphic == null)
 			return;
-		
+			
 		final frame:FlxFrame = graphic.imageFrame.frame;
 		graphicVisible = true;
 		
@@ -257,7 +257,7 @@ class FlxTiledSprite extends FlxStrip
 		
 		// Texture coordinates (UVs)
 		final rectUX:Float = (drawRect.x - scrollX) / frame.sourceSize.x;
-		final rectVX:Float = rectUX + (drawRect.width-drawRect.x) / frame.sourceSize.x;
+		final rectVX:Float = rectUX + (drawRect.width - drawRect.x) / frame.sourceSize.x;
 		final rectUY:Float = (drawRect.y - scrollY) / frame.sourceSize.y;
 		final rectVY:Float = rectUY + (drawRect.height - drawRect.y) / frame.sourceSize.y;
 		
@@ -288,7 +288,7 @@ class FlxTiledSprite extends FlxStrip
 	{
 		if (result == null)
 			result = FlxRect.get();
-		
+			
 		final frame:FlxFrame = graphic.imageFrame.frame;
 		final sourceSizeX = FlxG.renderBlit ? graphic.bitmap.width : frame.sourceSize.x;
 		final sourceSizeY = FlxG.renderBlit ? graphic.bitmap.height : frame.sourceSize.y;
@@ -308,7 +308,7 @@ class FlxTiledSprite extends FlxStrip
 		result.width = FlxMath.bound(result.width, 0, width);
 		
 		result.y = (repeatY ? 0 : scrollY);
-		if (clipRect != null) 
+		if (clipRect != null)
 		{
 			result.y += clipRect.y;
 		}
@@ -328,10 +328,10 @@ class FlxTiledSprite extends FlxStrip
 	{
 		if (value <= 0)
 			return value;
-		
+			
 		if (value != width)
 			regen = true;
-		
+			
 		return super.set_width(value);
 	}
 	
@@ -339,10 +339,10 @@ class FlxTiledSprite extends FlxStrip
 	{
 		if (value <= 0)
 			return value;
-		
+			
 		if (value != height)
 			regen = true;
-		
+			
 		return super.set_height(value);
 	}
 	
@@ -350,7 +350,7 @@ class FlxTiledSprite extends FlxStrip
 	{
 		if (value != scrollX)
 			regen = true;
-		
+			
 		return scrollX = value;
 	}
 	
@@ -358,7 +358,7 @@ class FlxTiledSprite extends FlxStrip
 	{
 		if (value != scrollY)
 			regen = true;
-		
+			
 		return scrollY = value;
 	}
 	
@@ -366,7 +366,7 @@ class FlxTiledSprite extends FlxStrip
 	{
 		if (value != repeatX)
 			regen = true;
-		
+			
 		return repeatX = value;
 	}
 	
@@ -374,7 +374,7 @@ class FlxTiledSprite extends FlxStrip
 	{
 		if (value != repeatY)
 			regen = true;
-		
+			
 		return repeatY = value;
 	}
 }

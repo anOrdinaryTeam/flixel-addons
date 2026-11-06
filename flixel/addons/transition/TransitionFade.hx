@@ -33,7 +33,7 @@ class GraphicDiagonalGradient extends RawGraphicDiagonalGradient
 }
 #else
 @:keep @:bitmap("assets/images/transitions/diagonal_gradient.png")
-private class GraphicDiagonalGradient extends BitmapData {}
+class GraphicDiagonalGradient extends BitmapData {}
 #end
 
 typedef TweenEndValues = { ?x:Float, ?y:Float, ?alpha:Float };
