@@ -470,15 +470,6 @@ class FlxBackdrop extends FlxSprite
 					_tileMatrix.ty = Math.floor(_tileMatrix.ty);
 				}
 
-				#if FLX_CNE_FORK
-				if (!camera.rotateSprite && camera.angle != 0)
-				@:privateAccess {
-					_tileMatrix.translate(-camera.width / 2, -camera.height / 2);
-					_tileMatrix.rotateWithTrig(camera._cosAngle, camera._sinAngle);
-					_tileMatrix.translate(camera.width / 2, camera.height / 2);
-				}
-				#end
-
 				if (FlxG.renderBlit)
 				{
 					final pixels = drawBlit ? _blitGraphic.bitmap : framePixels;
