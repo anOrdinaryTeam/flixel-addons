@@ -5,6 +5,7 @@ package flixel.addons.display;
 		#error "FlxRuntimeShader isn't available with nme or flash."
 	#end
 #else
+import flixel.FlxG;
 import flixel.graphics.tile.FlxGraphicsShader;
 #end
 #if lime
@@ -53,12 +54,24 @@ class FlxRuntimeShader extends FlxGraphicsShader
 	static final outFragColorKeyword:EReg = ~/\bout\s+vec4\s+openfl_FragColor\s*;\s*/g;
 
 	/**
+	 * Path of the fragment shader file, when loaded with `fromFile` (Codename Engine API).
+	 */
+	@:noCompletion public var _fragmentFilePath:Null<String>;
+
+	/**
+	 * Path of the vertex shader file, when loaded with `fromFile` (Codename Engine API).
+	 */
+	@:noCompletion public var _vertexFilePath:Null<String>;
+
+	/**
 	 * Constructs a GLSL shader.
 	 * @param fragmentSource The fragment shader source.
 	 * @param vertexSource The vertex shader source.
+	 * @param glslVersion Accepted for Codename Engine compatibility. Shadow's OpenFL picks the GLSL
+	 *                    version for the whole renderer and converts sources to it.
 	 * Note you also need to `initialize()` the shader MANUALLY! It can't be done automatically.
 	 */
-	public function new(?fragmentSource:String, ?vertexSource:String):Void
+	public function new(?fragmentSource:String, ?vertexSource:String, ?glslVersion:String):Void
 	{
 		if (fragmentSource == null)
 		{
@@ -86,6 +99,68 @@ class FlxRuntimeShader extends FlxGraphicsShader
 		}
 
 		super();
+	}
+
+	/**
+	 * Constructs a shader from shader files (Codename Engine API). `.frag` / `.vert` (or
+	 * `.glsl` for fragments) are added when missing; `vertexPath` defaults to `fragmentPath`.
+	 */
+	public static function fromFile(fragmentPath:String, ?vertexPath:String, ?version:String):FlxRuntimeShader
+	{
+		final shader = new FlxRuntimeShader();
+
+		if (vertexPath == null)
+		{
+			final idx = fragmentPath.lastIndexOf(".");
+			vertexPath = idx == -1 ? fragmentPath : fragmentPath.substr(0, idx);
+		}
+
+		shader._fromFile(_getPath(fragmentPath, false), _getPath(vertexPath, true), version);
+		return shader;
+	}
+
+	/**
+	 * Resolves a shader file path, like Codename Engine's FlxRuntimeShader.
+	 */
+	private static function _getPath(path:String, isVertex:Bool):Null<String>
+	{
+		if (path == null)
+			return null;
+
+		final idx = path.lastIndexOf(".");
+		var ext:Null<String> = null;
+		if (idx != -1)
+		{
+			if (FlxG.assets.exists(path))
+				return path;
+			ext = path.substr(idx + 1);
+			path = path.substr(0, idx);
+		}
+
+		if (ext == null || (isVertex ? ext != "vert" : ext != "frag"))
+		{
+			ext = isVertex ? ".vert" : ".frag";
+			if (FlxG.assets.exists(path + ext))
+				return path + ext;
+		}
+
+		if (!isVertex && FlxG.assets.exists(path + ".glsl"))
+			return path + ".glsl";
+		return null;
+	}
+
+	/**
+	 * Loads the shader sources from files; a null path keeps the default source.
+	 */
+	private function _fromFile(fragmentPath:Null<String>, vertexPath:Null<String>, version:Null<String>):Void
+	{
+		_fragmentFilePath = fragmentPath;
+		_vertexFilePath = vertexPath;
+
+		glFragmentSource = __processFragmentSource(fragmentPath != null ? FlxG.assets.getText(fragmentPath) : glFragmentSourceRaw);
+		glVertexSource = __processVertexSource(vertexPath != null ? FlxG.assets.getText(vertexPath) : glVertexSourceRaw);
+
+		@:privateAccess this.__glSourceDirty = true;
 	}
 
 	/**

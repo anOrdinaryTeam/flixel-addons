@@ -105,6 +105,41 @@ class FlxNestedSprite extends FlxSprite
 			return Child;
 
 		children.push(Child);
+		preAdd(Child);
+
+		return Child;
+	}
+
+	/**
+	 * Inserts a child at `position` in the children list (Codename Engine API).
+	 */
+	public function insert(position:Int, Child:FlxNestedSprite):FlxNestedSprite
+	{
+		if (Child == null)
+		{
+			FlxG.log.warn("Cannot insert a `null` object into a FlxNestedSprite.");
+			return null;
+		}
+
+		// Don't bother inserting a child twice.
+		if (children.indexOf(Child) >= 0)
+			return Child;
+
+		// reuse an empty slot at that position
+		if (position < children.length && children[position] == null)
+			children[position] = Child;
+		else
+			children.insert(position, Child);
+
+		preAdd(Child);
+		return Child;
+	}
+
+	/**
+	 * Prepares a child that was just added (Codename Engine API).
+	 */
+	function preAdd(Child:FlxNestedSprite):Void
+	{
 		Child.velocity.set(0, 0);
 		Child.acceleration.set(0, 0);
 		Child.scrollFactor.copyFrom(scrollFactor);
@@ -114,8 +149,6 @@ class FlxNestedSprite extends FlxSprite
 		Child._parentGreen = color.greenFloat;
 		Child._parentBlue = color.blueFloat;
 		Child.color = Child.color;
-
-		return Child;
 	}
 
 	/**
