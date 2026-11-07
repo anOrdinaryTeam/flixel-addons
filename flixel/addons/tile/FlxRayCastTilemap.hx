@@ -3,7 +3,7 @@ package flixel.addons.tile;
 import flixel.tile.FlxTilemap;
 import flixel.math.FlxPoint;
 
-#if (flixel < version("5.9.0"))
+#if ((flixel < version("5.9.0")) || cne)
 /**
  * @author greglieberman
  */
