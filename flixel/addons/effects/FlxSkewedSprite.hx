@@ -78,7 +78,10 @@ class FlxSkewedSprite extends FlxSprite
 			_point.floor();
 
 		_matrix.translate(_point.x, _point.y);
-		camera.drawPixels(_frame, framePixels, _matrix, colorTransform, blend, antialiasing, shader, blendTarget);
+		if (layer != null)
+			layer.drawPixels(this, camera, _frame, framePixels, _matrix, colorTransform, blend, antialiasing, shader, blendTarget, wrapMode);
+		else
+			camera.drawPixels(_frame, framePixels, _matrix, colorTransform, blend, antialiasing, shader, blendTarget, wrapMode);
 	}
 
 	function updateSkewMatrix():Void

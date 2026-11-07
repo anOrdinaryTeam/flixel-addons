@@ -473,7 +473,7 @@ class FlxBackdrop extends FlxSprite
 				if (FlxG.renderBlit)
 				{
 					final pixels = drawBlit ? _blitGraphic.bitmap : framePixels;
-					camera.drawPixels(frame, pixels, _tileMatrix, colorTransform, blend, antialiasing, shaderEnabled ? shader : null, blendTarget);
+					camera.drawPixels(frame, pixels, _tileMatrix, colorTransform, blend, antialiasing, shaderEnabled ? shader : null, blendTarget, wrapMode);
 				}
 				else
 				{
