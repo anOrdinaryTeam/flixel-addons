@@ -87,10 +87,6 @@ class FlxBackdrop extends FlxSprite
 	var _cosRotation:Float = 0.0;
 	var _sinRotation:Float = 0.0;
 
-	#if !FLX_CNE_FORK
-	public var shaderEnabled:Bool = false;
-	#end
-
 	/**
 	 * Creates an instance of the FlxBackdrop class, used to create infinitely scrolling backgrounds.
 	 *
@@ -125,12 +121,8 @@ class FlxBackdrop extends FlxSprite
 			return;
 		}
 
-		#if FLX_CNE_FORK
 		if (isFrameNull)
 			checkEmptyFrame();
-		#else
-		checkEmptyFrame();
-		#end
 
 		if (alpha == 0 || _frame.type == FlxFrameType.EMPTY)
 			return;
